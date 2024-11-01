@@ -46,8 +46,7 @@ impl Application {
         let mut connection = self.state.redis.get_connection()?;
 
         connection.set("hapi", "7630000000000000000")?;
-        connection.set("grishko", "356000000000000")?;
-
+        connection.set("poken.sergei24.testnet", "7")?;
         Ok(())
     }
 
