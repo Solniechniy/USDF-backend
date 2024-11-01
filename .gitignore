@@ -1,0 +1,8 @@
+/target
+/data
+/configuration.toml
+/secret.toml
+.vscode
+.DS_Store
+.env
+.gitlab-ci.yml
