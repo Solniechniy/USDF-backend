@@ -18,7 +18,7 @@ use crate::application::Application;
 
 impl Application {
     async fn create_router(&self) -> Result<Router> {
-        let header = "http://localhost".parse::<HeaderValue>()?;
+        let header = "*".parse::<HeaderValue>()?;
         let cors = CorsLayer::new().allow_origin(AllowOrigin::exact(header));
 
         let router = Router::new()
