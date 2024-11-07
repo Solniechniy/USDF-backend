@@ -35,7 +35,7 @@ pub(crate) fn calculate_usdf_amount(
     let price_u128: u128 = price_data.price.parse().expect("Failed to parse string to u128");
     let decimals_value = BASE.pow(price_data.decimals as u32);
 
-    Ok(amount * price_u128 * decimals_value * USDF_COEFFICIENT / 100)
+    Ok(amount * price_u128 * USDF_COEFFICIENT / 100 / decimals_value)
 }
 
 /// Create message asset msg
