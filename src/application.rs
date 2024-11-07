@@ -44,10 +44,10 @@ impl Application {
         // WARN: HARDCODED TEST VERSION!
         // Further price + decimals will be fetched from DexTools
         let mut connection = self.state.redis.get_connection()?;
-
-        connection.set("usmeme.tg", "0.00006842")?;
-        connection.set("dd.tg", "0.0008")?;
-        connection.set("poken.sergei24.testnet", "7")?;
+        // WARN: PRICE DECIMAL 17
+        connection.set("usmeme.tg", "68420000000000")?;
+        connection.set("dd.tg", "800000000000000")?;
+        connection.set("poken.sergei24.testnet", "7000000000000000000")?;
         Ok(())
     }
 
