@@ -4,7 +4,7 @@ use {
 
 use crate::configuration::AppConfig;
 
-const LAST_NONCE_KEY: &str = "last_nonce";
+pub const LAST_NONCE_KEY: &str = "last_nonce";
 
 #[derive(Clone)]
 pub(crate) struct AppState {
