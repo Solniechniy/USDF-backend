@@ -9,6 +9,7 @@ use {
 use crate::error::AppError;
 
 pub(crate) const USDF_COEFFICIENT: u128 = 30;
+pub(crate) const PRICE_DECIMALS: u32 = 18;
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub(crate) struct SignatureInput {
@@ -34,7 +35,7 @@ pub(crate) fn calculate_usdf_amount(
         .get(token_address)
         .map_err(|_| AppError::invalid_request("Unknown token"))?;
 
-    Ok(amount * price * USDF_COEFFICIENT / 100)
+    Ok(amount * (price / 10_u128.pow(PRICE_DECIMALS)) * USDF_COEFFICIENT / 100)
 }
 
 /// Create message asset msg

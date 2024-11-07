@@ -44,7 +44,7 @@ impl Application {
         // WARN: HARDCODED TEST VERSION!
         // Further price + decimals will be fetched from DexTools
         let mut connection = self.state.redis.get_connection()?;
-        // WARN: PRICE DECIMAL 17
+        // WARN: PRICE DECIMAL 18
         connection.set("usmeme.tg", "68420000000000")?;
         connection.set("dd.tg", "800000000000000")?;
         connection.set("poken.sergei24.testnet", "7000000000000000000")?;
