@@ -5,7 +5,6 @@ use {
 use crate::error::AppError;
 
 pub(crate) const USDF_COEFFICIENT: u128 = 30;
-pub(crate) const PRICE_DECIMALS: u32 = 18;
 const BASE: u128 = 10;
 
 #[derive(Clone, Debug, Serialize, Deserialize)]

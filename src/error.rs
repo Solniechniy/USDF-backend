@@ -11,7 +11,6 @@ pub struct AppError {
     pub code: StatusCode,
     pub description: String,
 }
-use serde::{Serialize, Deserialize};
 
 
 impl AppError {
