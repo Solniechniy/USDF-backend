@@ -6,7 +6,7 @@ use {
     tracing::info,
 };
 
-use crate::{configuration::AppConfig, state::AppState};
+use crate::{configuration::AppConfig, state::{AppState, PriceData}};
 
 pub struct Application {
     pub socket: SocketAddr,
@@ -45,9 +45,26 @@ impl Application {
         // Further price + decimals will be fetched from DexTools
         let mut connection = self.state.redis.get_connection()?;
         // WARN: PRICE DECIMAL 18
-        connection.set("usmeme.tg", "68420000000000")?;
-        connection.set("dd.tg", "800000000000000")?;
-        connection.set("poken.sergei24.testnet", "7000000000000000000")?;
+
+        let price_data_usmeme = PriceData {
+            price: "68420000000000".to_string(),
+            decimals: 8,
+        };
+
+         let price_data_dd = PriceData {
+            price: "800000000000000".to_string(),
+            decimals: 8,
+        };
+
+         let price_data_testnet = PriceData {
+            price: "800000000000000".to_string(),
+            decimals: 18
+        };
+
+
+        connection.set("usmeme.tg", serde_json::to_string(&price_data_usmeme)?)?;
+        connection.set("dd.tg", serde_json::to_string(&price_data_dd)?)?;
+        connection.set("poken.sergei24.testnet", serde_json::to_string(&price_data_testnet)?)?;
         Ok(())
     }
 

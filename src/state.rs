@@ -1,11 +1,5 @@
 use {
-    anyhow::{anyhow, Result},
-    ed25519_dalek::{ed25519::signature::SignerMut, Signature, SigningKey},
-    redis::Commands,
-    secrecy::ExposeSecret,
-    std::sync::Arc,
-    tokio::sync::RwLock,
-    tracing::info,
+    anyhow::{anyhow, Result}, ed25519_dalek::{ed25519::signature::SignerMut, Signature, SigningKey}, redis::Commands, secrecy::ExposeSecret, serde::{Deserialize, Serialize}, std::sync::Arc, tokio::sync::RwLock, tracing::info
 };
 
 use crate::configuration::AppConfig;
@@ -17,6 +11,12 @@ pub(crate) struct AppState {
     pub redis: redis::Client,
     signing_key: SigningKey,
     pub last_nonce: Arc<RwLock<u64>>,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct PriceData {
+    pub price: String,
+    pub decimals: u8,
 }
 
 impl AppState {

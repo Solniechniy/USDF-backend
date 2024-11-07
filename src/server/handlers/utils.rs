@@ -1,15 +1,12 @@
 use {
-    redis::Commands,
-    rlp::RlpStream,
-    serde::{Deserialize, Serialize},
-    sha2::{Digest, Sha256},
-    tracing::instrument,
+    crate::state::PriceData, redis::Commands, rlp::RlpStream, serde::{Deserialize, Serialize}, sha2::{Digest, Sha256}, tracing::instrument
 };
 
 use crate::error::AppError;
 
 pub(crate) const USDF_COEFFICIENT: u128 = 30;
 pub(crate) const PRICE_DECIMALS: u32 = 18;
+const BASE: u128 = 10;
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub(crate) struct SignatureInput {
@@ -31,11 +28,15 @@ pub(crate) fn calculate_usdf_amount(
     token_address: &str,
     amount: u128,
 ) -> Result<u128, AppError> {
-    let price: u128 = redis_connection
+    let value: String = redis_connection
         .get(token_address)
         .map_err(|_| AppError::invalid_request("Unknown token"))?;
 
-    Ok(amount * price * USDF_COEFFICIENT / 100)
+    let price_data: PriceData = serde_json::from_str(&value)?;
+    let price_u128: u128 = price_data.price.parse().expect("Failed to parse string to u128");
+    let decimals_value = BASE.pow(price_data.decimals as u32);
+
+    Ok(amount * price_u128 * decimals_value * USDF_COEFFICIENT / 100)
 }
 
 /// Create message asset msg

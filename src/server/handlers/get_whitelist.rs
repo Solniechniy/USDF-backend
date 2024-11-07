@@ -6,7 +6,7 @@ use {
 };
 
 use super::utils::USDF_COEFFICIENT;
-use crate::{error::AppError, state::AppState};
+use crate::{error::AppError, state::{AppState, PriceData}};
 
 /// Handle get whitelist requests
 #[instrument(level = "info", skip(state))]
@@ -18,11 +18,12 @@ pub(crate) async fn get_whitelist_handler(
     let keys: Vec<String> = redis_connection.keys("*")?;
 
     for token in keys {
-        let price: String = redis_connection.get(&token)?;
+        let serialized_data: PriceData = serde_json::from_str(&token)?;
         let info = json!({
             "token" : token,
-            "price" : price,
-            "coefficient" : USDF_COEFFICIENT
+            "price" : serialized_data.price,
+            "coefficient" : USDF_COEFFICIENT,
+            "decimals": serialized_data.decimals
         });
         res.push(info);
     }
