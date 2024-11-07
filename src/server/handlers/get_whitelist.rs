@@ -18,7 +18,8 @@ pub(crate) async fn get_whitelist_handler(
     let keys: Vec<String> = redis_connection.keys("*")?;
 
     for token in keys {
-        let serialized_data: PriceData = serde_json::from_str(&token)?;
+        let value: String = redis_connection.get(&token)?;
+        let serialized_data: PriceData = serde_json::from_str(&value)?;
         let info = json!({
             "token" : token,
             "price" : serialized_data.price,
