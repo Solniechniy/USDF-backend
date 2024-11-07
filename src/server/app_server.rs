@@ -6,7 +6,7 @@ use {
         Router, Server,
     },
     tokio::{signal, sync::oneshot},
-    tower_http::cors::{AllowOrigin, CorsLayer},
+    tower_http::cors::{AllowOrigin, CorsLayer, AllowHeaders},
     tracing::info,
 };
 
@@ -19,7 +19,7 @@ use crate::application::Application;
 impl Application {
     async fn create_router(&self) -> Result<Router> {
         let header = "*".parse::<HeaderValue>()?;
-        let cors = CorsLayer::new().allow_origin(AllowOrigin::exact(header));
+        let cors = CorsLayer::new().allow_origin(AllowOrigin::exact(header)).allow_headers(AllowHeaders::any());
 
         let router = Router::new()
             .route("/health", get(health_handler))
