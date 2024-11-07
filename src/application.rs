@@ -45,8 +45,8 @@ impl Application {
         // Further price + decimals will be fetched from DexTools
         let mut connection = self.state.redis.get_connection()?;
 
-        connection.set("hapi", "7630000000000000000")?;
-        connection.set("asset.usdf.burntest.near", "7")?;
+        connection.set("usmeme.tg", "0.00006842")?;
+        connection.set("dd.tg", "0.0008")?;
         connection.set("poken.sergei24.testnet", "7")?;
         Ok(())
     }
